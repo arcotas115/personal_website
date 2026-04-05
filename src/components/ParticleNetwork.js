@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-export default function ParticleNetwork({ style }) {
+export default function ParticleNetwork() {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -13,8 +13,8 @@ export default function ParticleNetwork({ style }) {
     let animId;
     const mouse = { x: -9999, y: -9999 };
     const PARTICLE_COUNT = Math.floor((width * height) / 12000);
-    const CONNECTION_DIST = 140;
-    const MOUSE_RADIUS = 180;
+    const CONNECTION_DIST = 150;
+    const MOUSE_RADIUS = 200;
 
     canvas.width = width;
     canvas.height = height;
@@ -23,29 +23,23 @@ export default function ParticleNetwork({ style }) {
       constructor() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
-        this.vx = (Math.random() - 0.5) * 0.4;
-        this.vy = (Math.random() - 0.5) * 0.4;
-        this.radius = Math.random() * 1.5 + 0.5;
+        this.vx = (Math.random() - 0.5) * 0.35;
+        this.vy = (Math.random() - 0.5) * 0.35;
+        this.radius = Math.random() * 2 + 1;
       }
       update() {
-        // mouse repulsion
         const dx = this.x - mouse.x;
         const dy = this.y - mouse.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < MOUSE_RADIUS && dist > 0) {
           const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS;
-          this.vx += (dx / dist) * force * 0.4;
-          this.vy += (dy / dist) * force * 0.4;
+          this.vx += (dx / dist) * force * 0.35;
+          this.vy += (dy / dist) * force * 0.35;
         }
-
-        // damping
-        this.vx *= 0.98;
-        this.vy *= 0.98;
-
+        this.vx *= 0.985;
+        this.vy *= 0.985;
         this.x += this.vx;
         this.y += this.vy;
-
-        // wrap edges
         if (this.x < 0) this.x = width;
         if (this.x > width) this.x = 0;
         if (this.y < 0) this.y = height;
@@ -54,7 +48,7 @@ export default function ParticleNetwork({ style }) {
       draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
         ctx.fill();
       }
     }
@@ -68,29 +62,27 @@ export default function ParticleNetwork({ style }) {
           const dy = particles[i].y - particles[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < CONNECTION_DIST) {
-            const alpha = (1 - dist / CONNECTION_DIST) * 0.6;
+            const alpha = (1 - dist / CONNECTION_DIST) * 0.25;
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
             ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
-            ctx.lineWidth = 0.9;
+            ctx.lineWidth = 1.2;
             ctx.stroke();
           }
         }
       }
-
-      // lines from mouse to nearby particles
       for (const p of particles) {
         const dx = p.x - mouse.x;
         const dy = p.y - mouse.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < MOUSE_RADIUS) {
-          const alpha = (1 - dist / MOUSE_RADIUS) * 0.2;
+          const alpha = (1 - dist / MOUSE_RADIUS) * 0.35;
           ctx.beginPath();
           ctx.moveTo(mouse.x, mouse.y);
           ctx.lineTo(p.x, p.y);
           ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
-          ctx.lineWidth = 0.5;
+          ctx.lineWidth = 1;
           ctx.stroke();
         }
       }
@@ -98,24 +90,15 @@ export default function ParticleNetwork({ style }) {
 
     function animate() {
       ctx.clearRect(0, 0, width, height);
-      for (const p of particles) {
-        p.update();
-        p.draw();
-      }
+      for (const p of particles) { p.update(); p.draw(); }
       drawConnections();
       animId = requestAnimationFrame(animate);
     }
 
-    const onMove = (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    };
-
+    const onMove = (e) => { mouse.x = e.clientX; mouse.y = e.clientY; };
     const onResize = () => {
-      width = window.innerWidth;
-      height = window.innerHeight;
-      canvas.width = width;
-      canvas.height = height;
+      width = window.innerWidth; height = window.innerHeight;
+      canvas.width = width; canvas.height = height;
     };
 
     window.addEventListener('mousemove', onMove);
@@ -130,16 +113,10 @@ export default function ParticleNetwork({ style }) {
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      style={{
-        position: 'fixed',
-        top: 0, left: 0,
-        width: '100%', height: '100%',
-        pointerEvents: 'none',
-        zIndex: 0,
-        ...style,
-      }}
-    />
+    <canvas ref={canvasRef} style={{
+      position: 'fixed', top: 0, left: 0,
+      width: '100%', height: '100%',
+      pointerEvents: 'none', zIndex: 0,
+    }} />
   );
 }

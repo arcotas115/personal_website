@@ -7,20 +7,23 @@ export default function MagnifierCursor() {
   const raf = useRef(null);
   const [visible, setVisible] = useState(false);
   const [hovering, setHovering] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // hide on touch devices
+    const touch = 'ontouchstart' in window || window.innerWidth <= 640;
+    setIsMobile(touch);
+    if (touch) return;
+
     const onMove = (e) => {
       pos.current = { x: e.clientX, y: e.clientY };
       if (!visible) setVisible(true);
 
-      // detect if over interactive element
       const el = document.elementFromPoint(e.clientX, e.clientY);
       if (el) {
-        const tag = el.tagName.toLowerCase();
-        const interactive = tag === 'a' || tag === 'button' ||
+        const interactive = el.tagName === 'A' || el.tagName === 'BUTTON' ||
           el.closest('a') || el.closest('button') ||
-          el.classList.contains('project-card') ||
-          el.classList.contains('skill-pill');
+          el.closest('.project-card') || el.closest('.skill-pill');
         setHovering(interactive);
       }
     };
@@ -36,7 +39,7 @@ export default function MagnifierCursor() {
       rendered.current.y += (pos.current.y - rendered.current.y) * 0.18;
       if (outerRef.current) {
         outerRef.current.style.transform =
-          `translate(${rendered.current.x}px, ${rendered.current.y}px) scale(${hovering ? 1.5 : 1})`;
+          `translate(${rendered.current.x}px, ${rendered.current.y}px) scale(${hovering ? 1.6 : 1})`;
       }
       raf.current = requestAnimationFrame(animate);
     };
@@ -50,51 +53,27 @@ export default function MagnifierCursor() {
     };
   }, [visible, hovering]);
 
-  const size = 40;
+  if (isMobile) return null;
 
   return (
-    <>
-      {/* SVG filter for magnification distortion */}
-      <svg style={{ position: 'absolute', width: 0, height: 0 }}>
-        <defs>
-          <filter id="magnify-lens">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="0" />
-            <feColorMatrix
-              type="matrix"
-              values="1.15 0 0 0 0.02
-                      0 1.15 0 0 0.02
-                      0 0 1.15 0 0.02
-                      0 0 0 1 0"
-            />
-          </filter>
-        </defs>
-      </svg>
-
-      <div
-        ref={outerRef}
-        style={{
-          position: 'fixed',
-          top: -(size / 2),
-          left: -(size / 2),
-          width: size,
-          height: size,
-          borderRadius: '50%',
-          pointerEvents: 'none',
-          zIndex: 99999,
-          opacity: visible ? 1 : 0,
-          transition: 'opacity 0.3s ease, width 0.3s ease, height 0.3s ease',
-          border: '1px solid rgba(255,255,255,0.18)',
-          boxShadow: `
-            0 0 20px 2px rgba(255,255,255,0.03),
-            inset 0 0 12px 1px rgba(255,255,255,0.04),
-            0 0 0 1px rgba(255,255,255,0.04)
-          `,
-          backdropFilter: 'brightness(1.5) contrast(1.1) saturate(1.15)',
-          WebkitBackdropFilter: 'brightness(1.5) contrast(1.1) saturate(1.15)',
-          background: 'radial-gradient(circle at 35% 35%, rgba(255,255,255,0.08) 0%, transparent 60%)',
-          willChange: 'transform',
-        }}
-      />
-    </>
+    <div
+      ref={outerRef}
+      style={{
+        position: 'fixed',
+        top: -20, left: -20,
+        width: 40, height: 40,
+        borderRadius: '50%',
+        pointerEvents: 'none',
+        zIndex: 99999,
+        opacity: visible ? 1 : 0,
+        transition: 'opacity 0.3s ease',
+        border: `1px solid rgba(255,255,255,${hovering ? 0.25 : 0.15})`,
+        boxShadow: `0 0 15px 1px rgba(255,255,255,0.02), inset 0 0 10px rgba(255,255,255,0.03)`,
+        backdropFilter: 'brightness(1.4) contrast(1.08)',
+        WebkitBackdropFilter: 'brightness(1.4) contrast(1.08)',
+        background: 'radial-gradient(circle at 35% 35%, rgba(255,255,255,0.06) 0%, transparent 60%)',
+        willChange: 'transform',
+      }}
+    />
   );
 }
