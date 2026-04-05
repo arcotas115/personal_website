@@ -3,34 +3,51 @@ import FadeIn from '../components/FadeIn';
 
 const EXPERIENCE = [
   {
-    role: 'Software Engineering Intern',
-    company: 'Company Name',
-    period: 'May — Aug 2025',
+    role: 'Incoming Software Engineer Intern',
+    company: 'UF Information Technology',
+    period: 'May — Aug 2026',
+    bullets: [],
+    tags: [],
+  },
+  {
+    role: 'Teaching Assistant — Computer Networks',
+    company: 'University of Florida (CNT4007)',
+    period: 'Jan 2026 — Present',
     bullets: [
-      'Describe what you built, the scale, and the tech used.',
-      'Quantify impact wherever possible (e.g. reduced latency by 40%).',
+      'Evaluate and mentor 250+ students on networking concepts spanning the application, transport, and network layers — including TCP/UDP socket programming, P2P protocols, HTTP, DNS, and multi-threaded server architectures.',
     ],
-    tags: ['React', 'Go', 'AWS', 'PostgreSQL'],
+    tags: ['TCP/UDP', 'Socket Programming', 'P2P', 'HTTP', 'DNS'],
+  },
+  {
+    role: 'Graduate Research Assistant',
+    company: 'University of Florida',
+    period: 'Aug 2025 — Present',
+    bullets: [
+      'Reduced geospatial benchmark creation time from weeks to hours by developing an automated Python pipeline — processing raster data into vectorized polygons and generating 4,000+ structured QA pairs across 120 U.S. locations with GPT-4o API integration.',
+      'Designed the training data pipeline for a multimodal LLM, enabling automated spatial reasoning over land cover maps across 37 question types and 11 capabilities — projecting satellite-derived embeddings into the language model token space.',
+    ],
+    tags: ['Python', 'GPT-4o', 'Multimodal LLMs', 'GIS', 'Computational Geometry'],
   },
   {
     role: 'Research Assistant',
-    company: 'University of Florida — CISE',
-    period: 'Jan 2025 — Present',
+    company: 'Mahindra University',
+    period: 'Jan — Dec 2024',
     bullets: [
-      'Describe your research area and contributions.',
-      'Mention publications, tools built, or datasets created.',
+      'Led a team of 4 to build an end-to-end ML pipeline — data ingestion, feature engineering, XGBoost ensemble training, and evaluation — achieving 99% R² across 10,000+ configurations for aerodynamic prediction.',
+      'Applied parallel search using Differential Evolution, improving target efficiency by 35% over manual baselines.',
     ],
-    tags: ['Python', 'PyTorch', 'CUDA'],
+    tags: ['Python', 'XGBoost', 'ML Pipeline', 'Differential Evolution'],
   },
   {
-    role: 'Teaching Assistant',
-    company: 'University of Florida',
-    period: 'Aug — Dec 2024',
+    role: 'Software Engineering Intern',
+    company: 'Zemoso Technologies',
+    period: 'Jun — Aug 2023',
     bullets: [
-      'Course name and your responsibilities.',
-      'Any curriculum improvements or tools you created.',
+      'Architected 8+ RESTful API endpoints in Java and Spring Boot with Hibernate ORM, supporting full CRUD operations with pagination, filtering, and MySQL integration across the microservices architecture.',
+      'Optimized backend performance by refactoring SQL queries and introducing connection pooling, reducing average API response latency by 15%.',
+      'Established end-to-end authentication flow using Spring Security with JWT tokens and role-based access control.',
     ],
-    tags: ['Java', 'Data Structures', 'Algorithms'],
+    tags: ['Java', 'Spring Boot', 'MySQL', 'Hibernate', 'JWT', 'REST APIs'],
   },
 ];
 
@@ -60,58 +77,54 @@ function ExpCard({ exp, index }) {
             <h3 style={{
               fontSize: 17, fontWeight: 600, color: '#fff',
               letterSpacing: '-0.01em', marginBottom: 3,
-            }}>
-              {exp.role}
-            </h3>
-            <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>
-              {exp.company}
-            </p>
+            }}>{exp.role}</h3>
+            <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>{exp.company}</p>
           </div>
           <span style={{
             fontFamily: "'JetBrains Mono', monospace",
             fontSize: 11, fontWeight: 400,
             color: 'rgba(255,255,255,0.35)',
             letterSpacing: '0.02em', whiteSpace: 'nowrap', paddingTop: 4,
+          }}>{exp.period}</span>
+        </div>
+
+        {exp.bullets.length > 0 && (
+          <ul style={{
+            listStyle: 'none', display: 'flex',
+            flexDirection: 'column', gap: 6, marginTop: 4,
           }}>
-            {exp.period}
-          </span>
-        </div>
+            {exp.bullets.map((b, j) => (
+              <li key={j} style={{
+                fontSize: 14, lineHeight: 1.75,
+                color: 'rgba(255,255,255,0.6)',
+                paddingLeft: 14, position: 'relative',
+              }}>
+                <span style={{
+                  position: 'absolute', left: 0, top: 10,
+                  width: 4, height: 4, borderRadius: '50%',
+                  background: 'rgba(255,255,255,0.25)',
+                }} />
+                {b}
+              </li>
+            ))}
+          </ul>
+        )}
 
-        <ul style={{
-          listStyle: 'none', display: 'flex',
-          flexDirection: 'column', gap: 6, marginTop: 4,
-        }}>
-          {exp.bullets.map((b, j) => (
-            <li key={j} style={{
-              fontSize: 14, lineHeight: 1.75,
-              color: 'rgba(255,255,255,0.6)',
-              paddingLeft: 14, position: 'relative',
-            }}>
-              <span style={{
-                position: 'absolute', left: 0, top: 10,
-                width: 4, height: 4, borderRadius: '50%',
-                background: 'rgba(255,255,255,0.25)',
-              }} />
-              {b}
-            </li>
-          ))}
-        </ul>
-
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 6 }}>
-          {exp.tags.map((t) => (
-            <span key={t} style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 10, fontWeight: 400,
-              padding: '3px 10px', borderRadius: 4,
-              background: 'rgba(255,255,255,0.04)',
-              color: 'rgba(255,255,255,0.5)',
-              border: '1px solid rgba(255,255,255,0.06)',
-              letterSpacing: '0.03em',
-            }}>
-              {t}
-            </span>
-          ))}
-        </div>
+        {exp.tags.length > 0 && (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 6 }}>
+            {exp.tags.map((t) => (
+              <span key={t} style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 10, fontWeight: 400,
+                padding: '3px 10px', borderRadius: 4,
+                background: 'rgba(255,255,255,0.04)',
+                color: 'rgba(255,255,255,0.5)',
+                border: '1px solid rgba(255,255,255,0.06)',
+                letterSpacing: '0.03em',
+              }}>{t}</span>
+            ))}
+          </div>
+        )}
       </div>
     </FadeIn>
   );
@@ -137,6 +150,33 @@ export default function Experience() {
         }}>
           Where I've worked and what I've built.
         </p>
+      </FadeIn>
+
+      {/* Education callout */}
+      <FadeIn>
+        <div style={{
+          display: 'flex', gap: 28, marginBottom: 32, flexWrap: 'wrap',
+        }}>
+          {[
+            { school: 'University of Florida', degree: 'M.S. CISE', gpa: '3.95', years: '2025–2027', note: 'Engineering Achievement Award' },
+            { school: 'Mahindra University', degree: 'B.Tech CS', gpa: '—', years: '2021–2025', note: '' },
+          ].map((edu) => (
+            <div key={edu.school} style={{
+              flex: '1 1 200px',
+              background: 'rgba(255,255,255,0.02)',
+              border: '1px solid rgba(255,255,255,0.05)',
+              borderRadius: 8, padding: '16px 18px',
+            }}>
+              <p style={{ fontSize: 14, fontWeight: 600, color: '#efefef', marginBottom: 4 }}>{edu.school}</p>
+              <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>
+                {edu.degree} {edu.gpa !== '—' && `· GPA: ${edu.gpa}`} · {edu.years}
+              </p>
+              {edu.note && (
+                <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', marginTop: 6, fontStyle: 'italic' }}>{edu.note}</p>
+              )}
+            </div>
+          ))}
+        </div>
       </FadeIn>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>

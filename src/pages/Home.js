@@ -49,7 +49,7 @@ export default function Home() {
             color: '#ffffff', lineHeight: 1.05,
             letterSpacing: '-0.03em', marginBottom: 14,
           }}>
-            Abhi<span style={{
+            Abhignan<span style={{
               display: 'inline-block',
               width: 3, height: 'clamp(32px, 5vw, 58px)',
               background: 'rgba(255,255,255,0.5)',
@@ -63,13 +63,13 @@ export default function Home() {
             color: 'rgba(255,255,255,0.6)', marginBottom: 24,
             letterSpacing: '0.01em',
           }}>
-            MS Computer Science @ <span style={{ color: '#FA4616', fontWeight: 400 }}>UF</span>
+            MS Computer Science @ <span style={{ color: '#FA4616', fontWeight: 400 }}>University of Florida</span>
           </h2>
 
-          <div style={{ minHeight: 52, marginBottom: 36 }}>
+          <div style={{ minHeight: 52, marginBottom: 28 }}>
             <Typewriter
-              text="I build performant, elegant software — from full-stack web apps to ML pipelines."
-              speed={30}
+              text="I build software that solves complex problems — and I enjoy every step of figuring out how."
+              speed={28}
               delay={1200}
               style={{
                 fontSize: 15, lineHeight: 1.7,
@@ -78,6 +78,18 @@ export default function Home() {
               }}
             />
           </div>
+
+          {/* Turing quote */}
+          <p style={{
+            fontFamily: "'Crimson Pro', serif",
+            fontStyle: 'italic',
+            fontSize: 14,
+            color: 'rgba(255,255,255,0.28)',
+            marginBottom: 36,
+            letterSpacing: '0.01em',
+          }}>
+            “What I cannot create, I do not understand.” — Richard Feynman
+          </p>
 
           <div className="hero-ctas" style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
             <Link to="/projects" className="btn-primary" style={{

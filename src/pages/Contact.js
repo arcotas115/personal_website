@@ -20,12 +20,12 @@ export default function Contact() {
             fontSize: 15, lineHeight: 1.8,
             color: 'rgba(255,255,255,0.6)', marginBottom: 36,
           }}>
-            I'm actively looking for new-grad and internship opportunities.
-            Whether you have a role in mind, a question, or just want to say
-            hi — my inbox is always open.
+            I'm a grad student at UF actively looking for Summer 2026 SWE
+            internships and new-grad roles. Whether you have a position in mind,
+            want to collaborate, or just want to say hi — I'd love to hear from you.
           </p>
 
-          <a href="mailto:your.email@ufl.edu" className="btn-outline" style={{
+          <a href="mailto:abhignansaiarcot@gmail.com" className="btn-outline" style={{
             display: 'inline-block', padding: '14px 36px',
             fontSize: 14, fontWeight: 500, fontFamily: "'Sora', sans-serif",
             color: '#ddd', background: 'transparent',
@@ -42,8 +42,7 @@ export default function Contact() {
           }}>
             {[
               { label: 'GitHub', href: 'https://github.com/arcotas115' },
-              { label: 'LinkedIn', href: 'https://linkedin.com/in/yourusername' },
-              { label: 'Twitter', href: 'https://twitter.com/yourusername' },
+              { label: 'LinkedIn', href: 'https://linkedin.com/in/abhi-arcot' },
             ].map((s) => (
               <a key={s.label} href={s.href}
                 target="_blank" rel="noopener noreferrer"

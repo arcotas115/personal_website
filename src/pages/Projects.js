@@ -3,28 +3,36 @@ import FadeIn from '../components/FadeIn';
 
 const PROJECTS = [
   {
-    title: 'Project Name',
-    description: 'Describe what this project does, the problem it solves, and its real-world impact.',
-    tags: ['React', 'Node.js', 'PostgreSQL'],
-    github: '#', live: '#',
+    title: 'Sector',
+    subtitle: 'Decentralized P2P Messaging Platform',
+    description: 'A decentralized messaging platform where communication happens directly between peers, with no central server. I designed and built the entire React/TypeScript frontend — server lists, channel views, message panels, and responsive layouts using Material UI. The Go backend handles authentication and real-time messaging over REST APIs. The project includes 60+ automated tests (Vitest and Cypress) and runs on AWS EC2 with a full CI/CD pipeline through GitHub Actions.',
+    tags: ['React.js', 'TypeScript', 'Go', 'MUI', 'Cypress', 'AWS'],
+    github: 'https://github.com/Sn00pyW00dst0ck/CEN5035-Project',
+    live: null,
   },
   {
-    title: 'Project Name',
-    description: 'Describe what this project does, the problem it solves, and its real-world impact.',
-    tags: ['Python', 'PyTorch', 'AWS'],
-    github: '#', live: '#',
+    title: 'PeerWire',
+    subtitle: 'Distributed BitTorrent File Sharing System',
+    description: 'A from-scratch implementation of the BitTorrent wire protocol in Java — covering TCP handshaking, bitfield exchange, piece selection, and the choking/unchoking algorithm. The system supports 50+ concurrent peer connections using multi-threaded architecture with non-blocking I/O and fine-grained locking for shared state. Deployed across 6 AWS EC2 instances using Docker, with validated file-transfer correctness under simulated network partitions.',
+    tags: ['Java', 'TCP/IP', 'Sockets', 'Multithreading', 'Docker', 'AWS'],
+    github: 'https://github.com/arcotas115',
+    live: null,
   },
   {
-    title: 'Project Name',
-    description: 'Describe what this project does, the problem it solves, and its real-world impact.',
-    tags: ['TypeScript', 'GraphQL', 'Docker'],
-    github: '#', live: null,
+    title: 'Argus',
+    subtitle: 'Named Entity Recognition Chrome Extension',
+    description: 'A Chrome extension that extracts text from any webpage, sends it to a Python Flask backend, and uses spaCy NER models to identify and classify named entities — people, organizations, locations, and dates. Results appear as inline color-coded annotations with a structured summary panel for browsing and filtering. Processes 10K+ tokens per page in under 2 seconds. Named after the hundred-eyed giant of Greek mythology.',
+    tags: ['JavaScript', 'Python', 'Flask', 'spaCy', 'Chrome API'],
+    github: 'https://github.com/arcotas115',
+    live: null,
   },
   {
-    title: 'Project Name',
-    description: 'Describe what this project does, the problem it solves, and its real-world impact.',
-    tags: ['C++', 'CUDA', 'OpenGL'],
-    github: '#', live: null,
+    title: 'TerraBench',
+    subtitle: 'Geospatial Training Data for Multimodal LLMs',
+    description: 'A research project at UF focused on building the training data pipeline for a LLaVA-style multimodal model that reasons over satellite imagery. Instead of CLIP, the architecture projects Google AlphaEarth satellite-derived embeddings into the language model\'s token space. My pipeline automates the conversion of raw raster data into vectorized polygons and generates 4,000+ structured QA pairs across 120 U.S. locations, reducing benchmark creation time from weeks to hours.',
+    tags: ['Python', 'GPT-4o', 'GIS', 'LLaVA', 'AlphaEarth'],
+    github: null,
+    live: null,
   },
 ];
 
@@ -44,7 +52,7 @@ function ProjectCard({ project, index }) {
           border: '1px solid rgba(255,255,255,0.06)',
           borderLeft: '3px solid rgba(255,255,255,0.08)',
           borderRadius: 12, padding: '28px 28px 24px',
-          display: 'flex', flexDirection: 'column', gap: 14,
+          display: 'flex', flexDirection: 'column', gap: 12,
           minHeight: 220,
         }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -70,9 +78,20 @@ function ProjectCard({ project, index }) {
             )}
           </div>
         </div>
-        <h3 style={{ fontSize: 18, fontWeight: 600, color: '#fff', letterSpacing: '-0.01em' }}>
-          {project.title}
-        </h3>
+
+        <div>
+          <h3 style={{ fontSize: 18, fontWeight: 600, color: '#fff', letterSpacing: '-0.01em', marginBottom: 2 }}>
+            {project.title}
+          </h3>
+          <p style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 11, color: 'rgba(255,255,255,0.3)',
+            letterSpacing: '0.03em',
+          }}>
+            {project.subtitle}
+          </p>
+        </div>
+
         <p style={{ fontSize: 14, lineHeight: 1.75, color: 'rgba(255,255,255,0.6)', flex: 1 }}>
           {project.description}
         </p>
@@ -86,9 +105,7 @@ function ProjectCard({ project, index }) {
               color: 'rgba(255,255,255,0.5)',
               border: '1px solid rgba(255,255,255,0.06)',
               letterSpacing: '0.03em',
-            }}>
-              {t}
-            </span>
+            }}>{t}</span>
           ))}
         </div>
       </div>
@@ -114,7 +131,7 @@ export default function Projects() {
           fontSize: 14, color: 'rgba(255,255,255,0.5)',
           marginBottom: 40, maxWidth: 500,
         }}>
-          Things I've built — personal projects, academic work, and experiments.
+          A selection of systems, tools, and research I've built from scratch.
         </p>
       </FadeIn>
       <div className="projects-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18 }}>
